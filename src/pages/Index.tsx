@@ -1,12 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import MainMenu from '@/components/MainMenu';
+import GameWorld from '@/components/GameWorld';
+import Inventory from '@/components/Inventory';
+import Settings from '@/components/Settings';
+import SavesMenu from '@/components/SavesMenu';
+import Shop from '@/components/Shop';
+
+type Screen = 'menu' | 'game' | 'inventory' | 'settings' | 'saves' | 'shop';
+type GameMode = 'survival' | 'creative';
 
 const Index = () => {
+  const [currentScreen, setCurrentScreen] = useState<Screen>('menu');
+  const [gameMode, setGameMode] = useState<GameMode>('survival');
+
+  const handleNavigate = (screen: Screen) => {
+    setCurrentScreen(screen);
+  };
+
+  const toggleGameMode = () => {
+    setGameMode(prev => prev === 'survival' ? 'creative' : 'survival');
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div className="w-full h-screen bg-background overflow-hidden font-['Rubik',sans-serif]">
+      {currentScreen === 'menu' && <MainMenu onNavigate={handleNavigate} />}
+      {currentScreen === 'game' && (
+        <GameWorld 
+          onNavigate={handleNavigate} 
+          gameMode={gameMode}
+          onToggleMode={toggleGameMode}
+        />
+      )}
+      {currentScreen === 'inventory' && <Inventory onNavigate={handleNavigate} />}
+      {currentScreen === 'settings' && <Settings onNavigate={handleNavigate} />}
+      {currentScreen === 'saves' && <SavesMenu onNavigate={handleNavigate} />}
+      {currentScreen === 'shop' && <Shop onNavigate={handleNavigate} />}
     </div>
   );
 };
