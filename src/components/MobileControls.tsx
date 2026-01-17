@@ -6,9 +6,10 @@ interface MobileControlsProps {
   onMove: (dx: number, dz: number) => void;
   onJump: () => void;
   onAction: () => void;
+  onBreak: () => void;
 }
 
-const MobileControls = ({ onMove, onJump, onAction }: MobileControlsProps) => {
+const MobileControls = ({ onMove, onJump, onAction, onBreak }: MobileControlsProps) => {
   const [joystickActive, setJoystickActive] = useState(false);
 
   const handleTouchStart = (dx: number, dz: number) => {
@@ -70,23 +71,34 @@ const MobileControls = ({ onMove, onJump, onAction }: MobileControlsProps) => {
         </div>
       </div>
 
-      <div className="absolute bottom-8 right-8 flex flex-col gap-4">
+      <div className="absolute bottom-8 right-8 flex gap-4">
+        <div className="flex flex-col gap-3">
+          <Button
+            onTouchStart={onBreak}
+            onMouseDown={onBreak}
+            size="lg"
+            className="w-16 h-16 rounded-full bg-destructive/80 backdrop-blur hover:bg-destructive text-destructive-foreground active:scale-95 transition-transform"
+          >
+            <Icon name="Hammer" size={28} />
+          </Button>
+
+          <Button
+            onTouchStart={onAction}
+            onMouseDown={onAction}
+            size="lg"
+            className="w-16 h-16 rounded-full bg-primary/80 backdrop-blur hover:bg-primary text-primary-foreground active:scale-95 transition-transform"
+          >
+            <Icon name="Plus" size={28} />
+          </Button>
+        </div>
+
         <Button
           onTouchStart={onJump}
           onMouseDown={onJump}
           size="lg"
-          className="w-16 h-16 rounded-full bg-accent/80 backdrop-blur hover:bg-accent text-accent-foreground active:scale-95 transition-transform"
+          className="w-20 h-20 rounded-full bg-accent/80 backdrop-blur hover:bg-accent text-accent-foreground active:scale-95 transition-transform self-end"
         >
-          <Icon name="MoveUp" size={28} />
-        </Button>
-
-        <Button
-          onTouchStart={onAction}
-          onMouseDown={onAction}
-          size="lg"
-          className="w-16 h-16 rounded-full bg-primary/80 backdrop-blur hover:bg-primary text-primary-foreground active:scale-95 transition-transform"
-        >
-          <Icon name="Hand" size={28} />
+          <Icon name="MoveUp" size={32} />
         </Button>
       </div>
     </>
